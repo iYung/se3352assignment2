@@ -68,7 +68,7 @@ router.route('/students/first')
         console.log('Received a GET!');
     });
 
-router.route('/students/last')
+router.route('/students/last')    
     .get(function(req, res) {
        Student.find(function(err, chords) {
             if (err)
@@ -77,12 +77,15 @@ router.route('/students/last')
         }).sort({_id:-1}).limit(1);
         console.log('Received a GET!');
     });
-
-router.route('/students/next/:id')
+    
+router.route('/students/next/:id')   
     .get((req, res) => {
-        myCursor = db.collection('students').find({_id: req.params.id}).toArray()
-        console.log('Received a Next!');
+        db.collection('students').find({_id: req.params.id}, (err, result)=>{
+            res.json()
+        }).sort({_id: 1 }).limit(1)
+        
     });
+    
 router.route('/students/previous/:id')
     .get((req, res) => {
         var myCursor = Student.find({_id: req.params.id}).sort({_id:-1})
@@ -122,6 +125,22 @@ router.route('/update/:id')
             });
         });
     });
+    
+//DELETE FUNCTION ----------------------
+router.route('/students')
+    .delete(function(req, res) {
+        Student.remove({
+            _id: "583f77c9cead2356121e07de"
+        },function(err, chords) {
+            if (err)
+                return res.send(err);
+
+            res.json(chords);
+            
+        });
+        console.log('Received a GET!');
+    });
+    
 
 // REGISTER OUR ROUTES -------------------------------
 // all of our routes will be prefixed with /api
