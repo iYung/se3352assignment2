@@ -53,7 +53,7 @@ router.get('/', function(req, res) {
 
 .get('/students',(req, res) => {
   db.collection('students').find().toArray((err, result) => {
-    res.json(result)
+    res.json({students: result})
   })
     console.log('Received a GET!');
 })
